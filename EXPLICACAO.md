@@ -284,7 +284,6 @@ API/
 ├── docs/
 │   ├── openapi.yaml                  # Documentação OpenAPI da API
 │   ├── info-swagger.md               # Informações sobre o Swagger Akamai
-│   ├── resumo-reuniao.md             # Resumo da reunião
 ├── prometheus/
 │   ├── prometheus.yml                # Configuração do Prometheus
 ├── .env                              # Variáveis de ambiente (não versionado)

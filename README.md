@@ -28,8 +28,8 @@ Esta API coleta dados DNS de diversas empresas, gera relatórios em PDF e os env
 1. Clone o repositório:
 
 ```sh
-   git clone <URL_DO_SEU_REPOSITORIO>
-   cd project
+   git clone https://github.com/vulquimar-francisco/report-algar.git
+   cd report-algar
 ```
 
 2. Crie um arquivo `.env` com base no `.env.example` e preencha com suas informações:
@@ -200,7 +200,6 @@ API/
 ├── docs/
 │   ├── openapi.yaml                  # Documentação OpenAPI da API
 │   ├── info-swagger.md               # Informações sobre o Swagger Akamai
-│   ├── resumo-reuniao.md             # Resumo da reunião
 ├── prometheus/
 │   ├── prometheus.yml                # Configuração do Prometheus
 ├── .env                              # Variáveis de ambiente (não versionado)
