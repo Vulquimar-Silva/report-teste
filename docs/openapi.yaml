@@ -1,0 +1,96 @@
+openapi: 3.0.0
+info:
+  title: Algar Telecom API
+  version: 1.0.1
+  description: API para coleta de dados DNS, integração com Akamai e geração de relatórios.
+paths:
+  /api/dns-data:
+    get:
+      summary: Coleta dados DNS
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Dados coletados com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        company_id:
+                          type: integer
+                          description: ID da empresa
+                        domain:
+                          type: string
+                          description: Domínio acessado
+                        requests:
+                          type: integer
+                          description: Número de requisições
+                        blocked:
+                          type: integer
+                          description: Número de acessos bloqueados
+  /token:
+    post:
+      summary: Gera um token de autenticação
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Token gerado com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+  /api/akamai/data:
+    get:
+      summary: Obtém dados da API Akamai
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Dados obtidos com sucesso da Akamai.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        threat:
+                          type: string
+                          description: Tipo de ameaça identificada
+                        severity:
+                          type: string
+                          description: Severidade da ameaça
+                        detected_at:
+                          type: string
+                          format: date-time
+                          description: Data e hora da detecção
+                        details:
+                          type: string
+                          description: Detalhes adicionais sobre a ameaça
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

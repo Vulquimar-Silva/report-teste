@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proteção Web - Relatório Semanal</title>
+    <link rel="stylesheet" href="./css/styles-pdf.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo-security">
+                <img src="./img/security-algar.png" alt="Logo-security">
+            </div>
+            <div class="title">
+                <h1>PROTEÇÃO WEB</h1>
+                <h2><strong>RELATÓRIO<br>SEMANAL</strong></h2>
+            </div>
+            <div class="brand">
+                <img src="./img/Logo_Algar.png" alt="Algar Telecom">
+                <p class="brand-text"><strong>#SEMPREJUNTO</strong></p>
+            </div>
+        </header>
+        <section class="info">
+            <p class="intro-text">
+                Nas próximas páginas você confere o relatório completo com a lista dos sites mais acessados e as informações sobre ameaças bloqueadas em sua rede. Em caso de dúvidas, ligue 0800 942 1212/(34) 99779 0112 (WhatsApp).
+            </p>
+            <div class="details">
+                <p><span class="vertical-line"></span><strong>EMPRESA</strong> {{ company_name }}</p>
+                <p><span class="vertical-line"></span><strong>INTERNET</strong> {{ internet_id }}</p>
+                <p><span class="vertical-line"></span><strong>PERÍODO</strong> {{ period }}</p>
+            </div>
+        </section>
+        <section class="threats-blocked">
+            <h3>AMEAÇAS BLOQUEADAS</h3>
+            <div class="threats-summary">
+                <div class="threats-block">
+                    <h4>PROTEÇÃO DE ATIVIDADES POTENCIALMENTE PREJUDICIAIS NO PERÍODO</h4>
+                    <div class="threat-count">{{ threats_protection_count }}</div>
+                </div>
+                <div class="threats-details">
+                    <table>
+                        <tr>
+                            <th>Malware & Phishing</th>
+                            <th>Web Filter Block</th>
+                            <th>Botnet</th>
+                        </tr>
+                        <tr>
+                            <td>{{ malware_phishing_count }}</td>
+                            <td>{{ web_filter_block_count }}</td>
+                            <td>{{ botnet_count }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section class="akamai-data">
+            <h3>DADOS DA AKAMAI</h3>
+            <p>A seguir estão os dados coletados da API Akamai:</p>
+            <div class="akamai-details">
+                <p><strong>Total de Requisições:</strong> {{ akamai_total_requests }}</p>
+                <p><strong>Ameaças Detectadas:</strong> {{ akamai_threats_detected }}</p>
+                <p><strong>Transações Seguras:</strong> {{ akamai_safe_transactions }}</p>
+            </div>
+        </section>
+        <section class="malware-phishing">
+            <h3>MALWARE & PHISHING</h3>
+            <p class="description">
+                <em>
+                    Malware - programas especificamente desenvolvidos para executar ações danosas e atividades maliciosas em um computador. Phishing - tipo de fraude em que o hacker tenta obter dados pessoais e financeiros de um usuário.
+                </em>
+            </p>
+            <table class="malicious-sites">
+                <tr>
+                    <th class="left">SITES MALICIOSOS</th>
+                    <th class="center">TENTATIVAS</th>
+                </tr>
+                <tr>
+                    <td>{{ malicious_site_1 }}</td>
+                    <td class="center">{{ malicious_attempts_1 }}</td>
+                </tr>
+                <tr>
+                    <td>{{ malicious_site_2 }}</td>
+                    <td class="center">{{ malicious_attempts_2 }}</td>
+                </tr>
+                <tr>
+                    <td>{{ malicious_site_3 }}</td>
+                    <td class="center">{{ malicious_attempts_3 }}</td>
+                </tr>
+                <tr>
+                    <td>{{ malicious_site_4 }}</td>
+                    <td class="center">{{ malicious_attempts_4 }}</td>
+                </tr>
+            </table>
+        </section>
+        <section class="user-blocked-categories">
+            <h3>CATEGORIAS BLOQUEADAS PELO USUÁRIO</h3>
+            <p>
+                Você pode solicitar o bloqueio de categorias de sites, cujo acesso você considere indevido para os usuários de sua rede. Para isto, basta ligar 0800 942 1212/(34) 99779 0112 (WhatsApp) e falar com um de nossos especialistas.
+            </p>
+        </section>
+        <section class="risk-analysis">
+            <h3>ANÁLISE DE RISCO</h3>
+            <div class="risk-analysis-content">
+                <div class="most-accessed">
+                    <p class="most-accessed-title">SITES MAIS ACESSADOS</p>
+                    <p>{{ most_accessed_sites }}</p>
+                </div>
+                <div class="transactions">
+                    <table>
+                        <tr>
+                            <th>URL</th>
+                            <th>TRANSAÇÕES</th>
+                        </tr>
+                        <tr>
+                            <td>{{ transaction_site_1 }}</td>
+                            <td>{{ transaction_count_1 }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ transaction_site_2 }}</td>
+                            <td>{{ transaction_count_2 }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ transaction_site_3 }}</td>
+                            <td>{{ transaction_count_3 }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ transaction_site_4 }}</td>
+                            <td>{{ transaction_count_4 }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ transaction_site_5 }}</td>
+                            <td>{{ transaction_count_5 }}</td>
+                        </tr>
+                        <tr>
+                            <td class="total">TOTAL</td>
+                            <td class="total">{{ total_transactions }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section class="blocked-sites">
+            <h3>SITES BLOQUEADOS</h3>
+            <p>Sua empresa ainda não pediu bloqueio de sites. Para fazer essa solicitação basta ligar 0800 942 1212/(34) 99779 0112 (WhatsApp) e falar com um de nossos especialistas.</p>
+        </section>
+    </div>
+</body>
+</html>
