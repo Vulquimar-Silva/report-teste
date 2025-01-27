@@ -35,6 +35,9 @@ ENV/
 env.bak/
 venv.bak/
 
+# Arquivo google
+report-algar-448615-10b36b66228a.json
+
 # Logs
 *.log
 *.pid
@@ -52,7 +55,6 @@ coverage.xml
 htmlcov/
 
 # Docker
-Dockerfile
 docker-compose.override.yml
 docker-compose.local.yml
 docker-compose.prod.yml
