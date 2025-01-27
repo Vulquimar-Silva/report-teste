@@ -142,6 +142,10 @@ python -m scripts.share_drive_folder
 ```bash
 python -m scripts.list_drive_folders
 ```
+- Para deletar as pastas disponíveis no google drive service:
+```bash
+python -m scripts.delete_drive_files
+```
 
 ---
 
