@@ -1,4 +1,4 @@
-# Guia Completo para Testes do Projeto Report-Algar
+# Guia Completo para Testes do Projeto Report-Teste
 
 Este guia detalha a estrutura do projeto **Report-Algar** e fornece um passo a passo para execução e teste do ambiente. Alguns arquivos relevantes são explicados, e comandos essenciais são fornecidos para facilitar a execução.
 
