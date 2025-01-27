@@ -1,29 +1,44 @@
 version: '3.8'
 
 services:
+  # --------------------------------------------------------------------------
+  # PostgreSQL (Banco de Dados)
+  # --------------------------------------------------------------------------
   db:
     image: postgres:13
+    container_name: report-algar-db
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "5433:5432"  # Mapeia a porta 5432 do container para 5433 no host
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
-      interval: 30s
-      timeout: 10s
+      interval: 10s
+      timeout: 5s
       retries: 5
+    networks:
+      - docker_network
+    restart: always
 
+  # --------------------------------------------------------------------------
+  # Aplicação Flask (report-algar-web)
+  # --------------------------------------------------------------------------
   web:
-    build: .
+    build:
+      context: .
+    container_name: report-algar-web
+    # Carrega as variáveis do .env e atribui ao container
     environment:
-      - ENV=production
-      - DEBUG=False
+      - ENV=${ENV}
+      - DEBUG=${DEBUG}
       - SECRET_KEY=${SECRET_KEY}
       - API_URL=${API_URL}
+      - API_TYPE=${API_TYPE}
+      - FAKE_API_URL=${FAKE_API_URL}
       - AKAMAI_API_URL=${AKAMAI_API_URL}
       - AKAMAI_API_TOKEN=${AKAMAI_API_TOKEN}
       - EMAIL_HOST=${EMAIL_HOST}
@@ -33,47 +48,87 @@ services:
       - GOOGLE_DRIVE_FOLDER=${GOOGLE_DRIVE_FOLDER}
       - GOOGLE_DRIVE_CREDENTIALS_PATH=${GOOGLE_DRIVE_CREDENTIALS_PATH}
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - TOKEN_EXPIRATION_HOURS=${TOKEN_EXPIRATION_HOURS}
+      - LOG_LEVEL=${LOG_LEVEL}
+      - LOG_FILE_PATH=${LOG_FILE_PATH}
+      - ETL_HOUR=${ETL_HOUR}
+      - ETL_MINUTE=${ETL_MINUTE}
+      - REPORT_DAYS=${REPORT_DAYS}
+      - REPORT_HOUR=${REPORT_HOUR}
+      - REPORT_MINUTE=${REPORT_MINUTE}
     volumes:
-      - .:/app
+      - ./logs:/app/logs
+    working_dir: /app
     command: python src/main.py
     ports:
-      - "5000:5000"
+      - "5000:5000"  # Mapeia a porta 5000 do container para 5000 no host
     depends_on:
-      - db
-      - prometheus
-      - grafana
+      db:
+        condition: service_healthy
+      prometheus:
+        condition: service_healthy
+      grafana:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
-      interval: 30s
+      test: ["CMD-SHELL", "curl -f http://localhost:5000/health || exit 1"]
+      interval: 15s
       timeout: 10s
       retries: 5
+    networks:
+      - docker_network
+    restart: always
 
+  # --------------------------------------------------------------------------
+  # Prometheus (Monitoramento)
+  # --------------------------------------------------------------------------
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:latest
+    container_name: report-algar-prometheus
     volumes:
-      - ./prometheus:/etc/prometheus
+      - prometheus_data:/etc/prometheus
     ports:
       - "9090:9090"
     healthcheck:
-      test: ["CMD", "wget", "--spider", "http://localhost:9090/-/healthy"]
-      interval: 30s
+      test: ["CMD-SHELL", "wget --spider http://localhost:9090/-/healthy || exit 1"]
+      interval: 15s
       timeout: 10s
       retries: 5
+    networks:
+      - docker_network
+    restart: always
 
+  # --------------------------------------------------------------------------
+  # Grafana (Dashboard)
+  # --------------------------------------------------------------------------
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:latest
+    container_name: report-algar-grafana
     ports:
-      - "3000:3000"
+      - "3100:3000"  # Acessar Grafana em localhost:3100
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
     volumes:
-      - grafana-data:/var/lib/grafana
+      - grafana_data:/var/lib/grafana
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
-      interval: 30s
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/ || exit 1"]
+      interval: 15s
       timeout: 10s
       retries: 5
+    networks:
+      - docker_network
+    restart: always
 
+# --------------------------------------------------------------------------
+# Declaração de Volumes
+# --------------------------------------------------------------------------
 volumes:
   postgres_data:
-  grafana-data:
+  prometheus_data:
+  grafana_data:
+
+# --------------------------------------------------------------------------
+# Rede interna
+# --------------------------------------------------------------------------
+networks:
+  docker_network:
+    external: true

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proteção Web - Relatório Semanal</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+        }
+
+        .header .logo-security img {
+            width: 150px;
+            height: auto;
+        }
+
+        .header .title {
+            text-align: center;
+        }
+
+        .header .title h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header .title h2 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: normal;
+            margin-top: 10px;
+        }
+
+        .header .brand {
+            text-align: right;
+        }
+
+        .header .brand img {
+            width: 140px;
+            height: auto;
+        }
+
+        .brand-text {
+            margin-top: 3px;
+            font-size: 12px;
+            color: #0063a2;
+        }
+
+        .info {
+            margin-top: 20px;
+        }
+
+        .info .intro-text {
+            margin: 10px 0;
+            font-size: 14px;
+            text-align: justify;
+        }
+
+        .details {
+            margin-top: 10px;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .details p {
+            margin: 5px 0;
+            line-height: 1.5;
+        }
+
+        .details strong {
+            font-weight: bold;
+            color: #000;
+            margin-right: 10px;
+        }
+
+        .vertical-line {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background-color: #000;
+        }
+
+        .details p {
+            display: flex;
+            align-items: center;
+        }
+
+        .details p::before {
+            content: "";
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background-color: #000;
+            margin-right: 8px;
+        }
+
+        .threats-blocked {
+            margin-top: 20px;
+        }
+
+        .threats-blocked h3 {
+            background-color: #000;
+            color: #fff;
+            padding: 10px;
+            margin: 0;
+            text-align: center;
+        }
+
+        .threats-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .threats-block {
+            background-color: #8BC34A;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            width: 45%;
+        }
+
+        .threats-block h4 {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .threat-count {
+            font-size: 36px;
+            margin-top: 10px;
+        }
+
+        .threats-details {
+            width: 50%;
+        }
+
+        .threats-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .threats-details th,
+        .threats-details td {
+            border: 1px solid #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .threats-details th {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .threats-details td {
+            background-color: #8BC34A;
+            color: #000;
+        }
+
+        .malware-phishing {
+            margin-top: 20px;
+        }
+
+        .malware-phishing h3 {
+            margin: 0;
+            color: #292929;
+            padding: 10px 0;
+            text-align: left;
+        }
+
+        .malware-phishing p.description {
+            margin: 10px 0;
+            padding: 0 10px;
+            font-size: 12px;
+            color: #4b4b4b;
+            margin-left: -9px;
+        }
+
+        .malicious-sites {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .malicious-sites th,
+        .malicious-sites td {
+            border: 1px solid #fff;
+            padding: 10px;
+        }
+
+        .malicious-sites th.left {
+            background-color: #000;
+            color: #fff;
+            text-align: left;
+            width: 75%;
+        }
+
+        .malicious-sites th.center {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            width: 25%;
+        }
+
+        .malicious-sites td.center {
+            background-color: #e0e0e0;
+            text-align: center;
+        }
+
+        .malicious-sites td {
+            background-color: #e0e0e0;
+        }
+
+        .user-blocked-categories {
+            margin-top: 20px;
+        }
+
+        .user-blocked-categories h3 {
+            margin: 0;
+            color: #292929;
+            padding: 10px 0;
+            text-align: left;
+            margin-left: 1px;
+        }
+
+        .user-blocked-categories p {
+            margin: 10px 0;
+            margin-left: 2px;
+        }
+
+        .risk-analysis {
+            margin-top: 30px;
+        }
+
+        .risk-analysis h3 {
+            background-color: #000;
+            color: #fff;
+            padding: 10px;
+            margin: 0;
+            text-align: center;
+        }
+
+        .risk-analysis-content {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        .most-accessed {
+            width: 45%;
+        }
+
+        .most-accessed-title {
+            color: red;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .transactions {
+            width: 50%;
+        }
+
+        .transactions table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .transactions th,
+        .transactions td {
+            border: 1px solid #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .transactions th {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .transactions td {
+            background-color: #e0e0e0;
+        }
+
+        .transactions .total {
+            background-color: #8BC34A;
+            font-weight: bold;
+        }
+
+        .blocked-sites {
+            margin-top: 20px;
+        }
+
+        .blocked-sites h3 {
+            margin: 0;
+            color: #292929;
+            padding: 10px 0;
+            text-align: left;
+            margin-left: 1px;
+        }
+
+        .blocked-sites p {
+            margin: 10px 0;
+            margin-left: 2px;
+        }
+
+        .most-accessed,
+        .transactions {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo-security">
+                <img src="https://minhas-imagens-publicas.s3.us-east-2.amazonaws.com/security-algar.png"
+                    alt="Logo-security">
+            </div>
+            <div class="title">
+                <h1>PROTEÇÃO WEB</h1>
+                <h2><strong>RELATÓRIO<br>SEMANAL</strong></h2>
+            </div>
+            <div class="brand">
+                <img src="https://minhas-imagens-publicas.s3.us-east-2.amazonaws.com/Logo_Algar.png"
+                    alt="Algar Telecom">
+                <p class="brand-text"><strong>#SEMPREJUNTO</strong></p>
+            </div>
+        </header>
+        <section class="info">
+            <p class="intro-text">
+                Nas próximas páginas você confere o relatório completo com a lista dos sites mais acessados e as
+                informações sobre ameaças bloqueadas em sua rede. Em caso de dúvidas, ligue 0800 942 1212/(34) 99779
+                0112 (WhatsApp).
+            </p>
+            <div class="details">
+                <p><span class="vertical-line"></span><strong>EMPRESA</strong> {{ company_name }}</p>
+                <p><span class="vertical-line"></span><strong>INTERNET</strong> {{ internet_id }}</p>
+                <p><span class="vertical-line"></span><strong>PERÍODO</strong> {{ period }}</p>
+            </div>
+        </section>
+        <section class="threats-blocked">
+            <h3>AMEAÇAS BLOQUEADAS</h3>
+            <div class="threats-summary">
+                <div class="threats-block">
+                    <h4>PROTEÇÃO DE ATIVIDADES POTENCIALMENTE PREJUDICIAIS NO PERÍODO</h4>
+                    <div class="threat-count">{{ threats_protection_count }}</div>
+                </div>
+                <div class="threats-details">
+                    <table>
+                        <tr>
+                            <th>Malware & Phishing</th>
+                            <th>Web Filter Block</th>
+                            <th>Botnet</th>
+                        </tr>
+                        <tr>
+                            <td>{{ malware_phishing_count }}</td>
+                            <td>{{ web_filter_block_count }}</td>
+                            <td>{{ botnet_count }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section class="akamai-data">
+            <h3>DADOS DA AKAMAI</h3>
+            <p>A seguir estão os dados coletados da API Akamai:</p>
+            <div class="akamai-details">
+                <p><strong>Total de Requisições:</strong> {{ akamai_total_requests }}</p>
+                <p><strong>Ameaças Detectadas:</strong> {{ akamai_threats_detected }}</p>
+                <p><strong>Transações Seguras:</strong> {{ akamai_safe_transactions }}</p>
+            </div>
+        </section>
+        <section class="malware-phishing">
+            <h3>MALWARE & PHISHING</h3>
+            <p class="description">
+                <em>
+                    Malware - programas especificamente desenvolvidos para executar ações danosas e atividades
+                    maliciosas em um computador. Phishing - tipo de fraude em que o hacker tenta obter dados pessoais e
+                    financeiros de um usuário.
+                </em>
+            </p>
+            <table class="malicious-sites">
+                <tr>
+                    <th class="left">SITES MALICIOSOS</th>
+                    <th class="center">TENTATIVAS</th>
+                </tr>
+                <tr>
+                    <td>{{ malicious_site_1 }}</td>
+                    <td class="center">{{ malicious_attempts_1 }}</td>
+                </tr>
+                <tr>
+                    <td>{{ malicious_site_2 }}</td>
+                    <td class="center">{{ malicious_attempts_2 }}</td>
+                </tr>
+                <tr>
+                    <td>{{ malicious_site_3 }}</td>
+                    <td class="center">{{ malicious_attempts_3 }}</td>
+                </tr>
+                <tr>
+                    <td>{{ malicious_site_4 }}</td>
+                    <td class="center">{{ malicious_attempts_4 }}</td>
+                </tr>
+            </table>
+        </section>
+        <section class="user-blocked-categories">
+            <h3>CATEGORIAS BLOQUEADAS PELO USUÁRIO</h3>
+            <p>
+                Você pode solicitar o bloqueio de categorias de sites, cujo acesso você considere indevido para os
+                usuários de sua rede. Para isto, basta ligar 0800 942 1212/(34) 99779 0112 (WhatsApp) e falar com um de
+                nossos especialistas.
+            </p>
+        </section>
+        <section class="risk-analysis">
+            <h3>ANÁLISE DE RISCO</h3>
+            <div class="risk-analysis-content">
+                <div class="most-accessed">
+                    <p class="most-accessed-title">SITES MAIS ACESSADOS</p>
+                    <p>{{ most_accessed_sites }}</p>
+                </div>
+                <div class="transactions">
+                    <table>
+                        <tr>
+                            <th>URL</th>
+                            <th>TRANSAÇÕES</th>
+                        </tr>
+                        <tr>
+                            <td>{{ transaction_site_1 }}</td>
+                            <td>{{ transaction_count_1 }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ transaction_site_2 }}</td>
+                            <td>{{ transaction_count_2 }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ transaction_site_3 }}</td>
+                            <td>{{ transaction_count_3 }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ transaction_site_4 }}</td>
+                            <td>{{ transaction_count_4 }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ transaction_site_5 }}</td>
+                            <td>{{ transaction_count_5 }}</td>
+                        </tr>
+                        <tr>
+                            <td class="total">TOTAL</td>
+                            <td class="total">{{ total_transactions }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section class="blocked-sites">
+            <h3>SITES BLOQUEADOS</h3>
+            <p>Sua empresa ainda não pediu bloqueio de sites. Para fazer essa solicitação basta ligar 0800 942 1212/(34)
+                99779 0112 (WhatsApp) e falar com um de nossos especialistas.</p>
+        </section>
+    </div>
+</body>
+
+</html>

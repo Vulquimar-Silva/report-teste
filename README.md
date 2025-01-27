@@ -1,218 +1,153 @@
-# Algar Telecom API
+# Guia Completo para Testes do Projeto Report-Algar
 
-Esta API coleta dados DNS de diversas empresas, gera relatórios em PDF e os envia por e-mail. A API está configurada para funcionar tanto em ambiente de desenvolvimento quanto em produção.
+Este guia detalha a estrutura do projeto **Report-Algar** e fornece um passo a passo para execução e teste do ambiente. Alguns arquivos relevantes são explicados, e comandos essenciais são fornecidos para facilitar a execução.
 
-## Sumário
-
-- [Algar Telecom API](#algar-telecom-api)
-  - [Sumário](#sumário)
-  - [Instalação](#instalação)
-  - [Uso](#uso)
-    - [Ambiente de Desenvolvimento](#ambiente-de-desenvolvimento)
-    - [Ambiente de Produção](#ambiente-de-produção)
-  - [Endpoints](#endpoints)
-    - [Autenticação](#autenticação)
-    - [Coleta de Dados DNS](#coleta-de-dados-dns)
-    - [Integração com Akamai](#integração-com-akamai)
-    - [Geração de Relatórios Internos](#geração-de-relatórios-internos)
-  - [Monitoramento](#monitoramento)
-  - [Documentação da API](#documentação-da-api)
-  - [Configurações Adicionais](#configurações-adicionais)
-    - [Configurar Variáveis de Ambiente](#configurar-variáveis-de-ambiente)
-    - [Configurar Google Drive](#configurar-google-drive)
-    - [Inicializar Banco de Dados](#inicializar-banco-de-dados)
-  - [Estrutura de Pastas](#estrutura-de-pastas)
-
-## Instalação
-
-1. Clone o repositório:
-
-```sh
-   git clone https://github.com/vulquimar-francisco/report-algar.git
-   cd report-algar
-```
-
-2. Crie um arquivo `.env` com base no `.env.example` e preencha com suas informações:
-
-```sh
-   cp .env.example .env
-```
-
-3. Instale as dependências:
-
-```sh
-   pip install -r requirements.txt
-```
-
-## Uso
-
-### Ambiente de Desenvolvimento
-
-Para rodar em modo desenvolvimento:
-
-```sh
-python src/main.py
-```
-
-### Ambiente de Produção
-
-Para rodar em produção usando Docker:
-
-```sh
-docker-compose up --build
-```
-
-## Endpoints
-
-### Autenticação
-
-Gera um token JWT para autenticação.
-
-- **URL**: `/token`
-- **Método**: `POST`
-- **Corpo da Requisição**:
-  ```json
-  {
-    "username": "seu_username",
-    "password": "sua_senha"
-  }
-  ```
-- **Resposta**:
-  ```json
-  {
-    "token": "seu_token_jwt"
-  }
-  ```
-
-### Coleta de Dados DNS
-
-- **URL**: `/api/dns-data`
-- **Método**: `GET`
-- **Cabeçalho**:
-  - `Authorization: Bearer seu_token_jwt`
-- **Resposta**:
-
-```json
-  {
-    "data": [...]
-  }
-```
-
-### Integração com Akamai
-
-- **URL**: `/api/akamai/data`
-- **Método**: `GET`
-- **Cabeçalho**:
-  - `Authorization: Bearer seu_token_jwt`
-- **Resposta**:
-  
-```json
-  {
-    "akamai_data": [...]
-  }
-```
-
-### Geração de Relatórios Internos
-
-- **URL**: `/api/internal-reports`
-- **Método**: `GET`
-- **Cabeçalho**:
-  - `Authorization: Bearer seu_token_jwt`
-- **Resposta**:
-
-```json
-  {
-    "reports": [...]
-  }
-```
-
-## Monitoramento
-
-A API utiliza Prometheus e Grafana para monitoramento. O Prometheus coleta métricas e o Grafana exibe dashboards.
-
-- **Prometheus**: [http://localhost:9090](http://localhost:9090)
-- **Grafana**: [http://localhost:3000](http://localhost:3000) (Login: `admin`, Senha: `admin`)
-
-## Documentação da API
-
-A documentação da API está disponível no formato Swagger.
-
-- **Swagger**: [http://localhost:5000/swagger](http://localhost:5000/swagger)
-- **Redoc**: [http://localhost:5000/redoc](http://localhost:5000/redoc)
-
-## Configurações Adicionais
-
-### Configurar Variáveis de Ambiente
-
-Crie um arquivo `.env` com base no `.env.example` e preencha as informações necessárias.
-
-### Configurar Google Drive
-
-1. Crie uma conta de serviço no Google Cloud Console.
-2. Baixe o arquivo JSON da chave da conta de serviço e salve-o como `service_account_credentials.json` na raiz do projeto.
-3. Certifique-se de que a variável `GOOGLE_DRIVE_CREDENTIALS_PATH` no `.env` aponta para `./service_account_credentials.json`.
-
-### Inicializar Banco de Dados
-
-Inicialize o banco de dados executando as migrações:
-
-```sh
-flask db init
-flask db migrate -m "Add DNSData model"
-flask db upgrade
-```
+---
 
 ## Estrutura de Pastas
 
-```plaintext
-API/
+```
+report-algar/
+├── .vscode/
+├── docs/
+├── logs/
+│   └── app.log
+├── prometheus/
+│   └── prometheus.yml
+├── scripts/
+│   ├── list_drive_folders.py
+│   ├── share_drive_folder.py
 ├── src/
 │   ├── api/
 │   │   ├── endpoints/
-│   │   │   └── dns_data_endpoint.py  # Endpoint para dados DNS
-│   │   │   └── internal_report.py    # Endpoint para relatórios internos
-│   │   │   └── akamai_integration.py # Endpoint para integração com Akamai
-│   │   ├── services/
-│   │       └── data_collector.py     # Serviço de coleta de dados DNS
-│   │       └── data_transformer.py   # Serviço de transformação de dados (ETL)
-│   │       └── email_sender.py       # Serviço de envio de e-mails
-│   │       └── pdf_generator.py      # Serviço de geração de PDFs
-│   │       └── google_drive.py       # Serviço de integração com Google Drive
+│   │   │   ├── akamai_integration.py
+│   │   │   ├── dns_data_endpoint.py
+│   │   │   ├── internal_report.py
+│   ├── services/
+│   │   ├── data_collector.py
+│   │   ├── data_transformer.py
+│   │   ├── email_sender.py
+│   │   ├── google_drive.py
+│   │   ├── pdf_generator.py
 │   ├── core/
-│   │   ├── config.py                 # Configurações principais da aplicação, incluindo Akamai
-│   │   ├── logger.py                 # Configuração de logs
-│   │   ├── scheduler.py              # Agendamento de tarefas (APScheduler)
-│   │   └── security.py               # Segurança e autenticação (JWT)
+│   │   ├── config.py
+│   │   ├── database.py
+│   │   ├── logger.py
+│   │   ├── scheduler.py
+│   │   ├── security.py
 │   ├── models/
-│   │   └── user.py                   # Modelo de usuário
-│   │   └── dns_data.py               # Modelo de dados DNS
-│   │   └── report.py                 # Modelo de relatório
-│   ├── main.py                       # Arquivo principal da aplicação Flask, agora integrando Akamai
-├── templates/
-│   ├── css/
-│   │   ├── styles-email.css          # Estilos CSS para e-mails
-│   │   └── styles-pdf.css            # Estilos CSS para PDFs
-│   ├── img/
-│   │   ├── Logo_Algar.png            # Imagem do logo da Algar
-│   │   └── security-algar.png        # Imagem de segurança da Algar
-│   ├── email_template.html           # Template de e-mail
-│   ├── pdf_template.html             # Template de PDF
-├── docs/
-│   ├── openapi.yaml                  # Documentação OpenAPI da API
-│   ├── info-swagger.md               # Informações sobre o Swagger Akamai
-├── prometheus/
-│   ├── prometheus.yml                # Configuração do Prometheus
-├── .env                              # Variáveis de ambiente (não versionado)
-├── .env.example                      # Exemplo de variáveis de ambiente
-├── Dockerfile                        # Dockerfile para a construção da imagem Docker
-├── docker-compose.yml                # Arquivo de configuração do Docker Compose
-├── README.md                         # Documentação principal do projeto
-├── EXPLICACAO.md                     # Explicação detalhada da aplicação
-└── requirements.txt                  # Dependências do projeto
+│   │   ├── __init__.py
+│   │   ├── dns_data.py
+│   │   ├── report.py
+│   │   ├── user.py
+│   ├── templates/
+│   │   ├── email_template.html
+│   │   ├── pdf_template.html
+│   ├── main.py
+├── .env
+├── .env.example
+├── .gitignore
+├── docker-compose.yml
+├── Dockerfile
+├── README.md
+├── report-algar-xxxxxx-xxxxxxxxxxxx.json
+├── requirements.txt
+├── start_build_docker.sh
 ```
 
 ---
 
-_©2024 L8 Group_
+## Descrição dos Arquivos
+
+### 1. Arquivos Principais
+
+- **main.py**: Ponto de entrada da aplicação. Configura as rotas e inicializa o servidor Flask.
+- **config.py**: Gerencia as variáveis de configuração carregadas do arquivo `.env`.
+- **scheduler.py**: Configura e gerencia o processo ETL diário usando `apscheduler`.
+- **docker-compose.yml**: Gerencia a configuração de contêineres Docker para o projeto.
+- **Dockerfile**: Define a imagem Docker usada para criar o ambiente da aplicação.
+- **requirements.txt**: Lista as dependências Python do projeto.
+- **start_build_docker.sh**: Script para iniciar o ambiente Docker.
+
+### 2. Diretórios
+
+#### `/api/endpoints`
+Contém os endpoints REST para integração com o sistema.
+
+#### `/api/services`
+Módulos de serviço que realizam ações específicas, como:
+- **data_collector.py**: Coleta dados do `json-server` ou da API Akamai.
+- **data_transformer.py**: Transforma e carrega os dados no banco.
+- **pdf_generator.py**: Gera PDFs baseados nos dados processados.
+- **google_drive.py**: Gerencia ações relacionadas ao Google Drive.
+
+#### `/core`
+- **database.py**: Configuração da conexão com o banco de dados PostgreSQL.
+- **logger.py**: Configura o logger para a aplicação.
+
+#### `/templates`
+Contém os templates HTML usados na geração de PDFs e e-mails.
+
+---
+
+## Passo a Passo para Testes
+
+### Pré-requisitos
+
+1. **Instale o Docker e Docker Compose**.
+2. **Configure as variáveis de ambiente no arquivo `.env`**:
+   - Certifique-se de preencher corretamente os campos de acesso ao Google Drive e ao banco de dados.
+
+### 1. Configurar Rede Docker
+Se a rede `docker_network` ainda não foi criada, execute:
+```bash
+docker network create docker_network
+```
+
+### 2. Inicializar o `json-server`
+Navegue até o diretório do `json-server` e execute:
+```bash
+docker-compose up --build
+```
+
+### 3. Iniciar o Ambiente do Projeto
+Na raiz do projeto, execute:
+```bash
+sudo ./start_build_docker.sh
+```
+
+Verifique se todos os contêineres estão ativos:
+```bash
+docker-compose ps
+```
+
+### 4. Executar o Pipeline Manualmente
+Para executar o pipeline ETL e gerar PDFs:
+```bash
+curl -X POST http://localhost:5000/run_pipeline
+```
+
+Para verificar os logs:
+```bash
+docker-compose logs -f web
+```
+
+### 5. Gerenciar Google Drive
+- Para compartilhar o PDF gerado no google drive service com outro google drive:
+```bash
+python -m scripts.share_drive_folder
+```
+- Para listar as pastas disponíveis no google drive service:
+```bash
+python -m scripts.list_drive_folders
+```
+
+---
+
+## Testando o Projeto
+
+1. **Execute os scripts fornecidos acima**.
+2. **Valide os PDFs gerados no Google Drive**. Certifique-se de que os dados estão preenchidos corretamente.
+3. **Verifique os logs em caso de erro** no arquivo `logs/app.log` ou execute o comando `docker-compose logs -f web`.
 
 ---
