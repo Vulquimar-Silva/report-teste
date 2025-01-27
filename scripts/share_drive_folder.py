@@ -30,6 +30,6 @@ def share_folder_with_email(folder_id, email):
 
 if __name__ == "__main__":
     # Substitua pelo ID da pasta e o e-mail pessoal
-    folder_id = "1qKEKl80LswWtGMOW8pZD5Ol0RGlLlSuf"
-    email = "vulquimarfdsj@gmail.com"
+    folder_id = "ID DA SUA PASTA AQUI"
+    email = "SEU EMAIL GOOGLE AQUI"
     share_folder_with_email(folder_id, email)
