@@ -133,8 +133,8 @@ docker-compose logs -f web
 ```
 
 ### 5. Gerenciar Google Drive
-- Para compartilhar o PDF gerado no google drive service com outro google drive: 
-Observação: edit o arquivo com o seu email e ID da pasta que foi gerado no report.
+- Para compartilhar o PDF gerado no google drive service com outro google drive. 
+Observação: edit o arquivo share_drive_folder.py com o seu e-mail e ID da pasta que foi gerado no report.
 ```bash
 python -m scripts.share_drive_folder
 ```
